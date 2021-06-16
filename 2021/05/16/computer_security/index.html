@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/liujyj/liujyj.github.io@main/image/computer_security/3.1.1%E7%94%A8%E6%88%B7%E8%AE%A4%E8%AF%81%E6%96%B9%E6%B3%95.png">
 <meta property="og:image" content="https://cdn.jsdelivr.net/gh/liujyj/liujyj.github.io@main/image/computer_security/3.2.2%E6%95%A3%E5%88%97%E5%8F%A3%E4%BB%A4%E4%BD%BF%E7%94%A8.png">
 <meta property="article:published_time" content="2021-05-16T08:00:46.000Z">
-<meta property="article:modified_time" content="2021-06-15T09:58:08.679Z">
+<meta property="article:modified_time" content="2021-06-16T02:32:36.028Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/liujyj/liujyj.github.io@main/image/computer_security/1.1%E5%AE%89%E5%85%A8%E5%8F%8A%E5%85%B6%E6%A6%82%E5%BF%B5%E5%85%B3%E7%B3%BB.png">
@@ -214,6 +214,9 @@
 <p>a.它可以防止复制的口令在文件中可见，即使是两个不同的用户选择了相同的口令，这些口令也会被分配不同的“盐值”。因此 ，这两个用户所拥有的散列口令是不同的。</p>
 <p>b.它显著的增加了离线口令字典攻击的难度。对于一个b位长度的“盐值”，可能产生的口令数量将会增长2的b次方倍数，这将大大增加通过字典攻击来猜测口令的难度。</p>
 <p>c.它使得攻击者几乎不可能发现一个用户是否在两个或更多的系统中使用了相同的口令。</p>
+<p>对于UNIX操作系统口令方案，仍然存在两种威胁，例如某台机器的用户可以通过==gust账户==或其他方式获取权限，然后运行口令猜测程序，该程序成为==口令破译器==。</p>
+<p>在消耗的很少的资源的情况下，攻击者就能检测成千上万个可能的口令，其次，如果攻击者能够得到一份口令文件的拷贝，那么攻击者就可以在另一台计算机运行==口令破译程序==，这使得攻击者可以在合理的时间内完成上百万次的==口令猜测==。<br><strong>最安全的UNIX散列/“盐值”方案</strong>可能是使用最广泛的开源UNIX——openBSD开发的方案。这种方案使用了Blowfish==对称分组密码==的散列函数，该散列函数被称为==Bcrypt==。</p>
+<h3 id="3-2-3-破解用户选择口令"><a href="#3-2-3-破解用户选择口令" class="headerlink" title="3.2.3 破解用户选择口令"></a>3.2.3 破解用户选择口令</h3><p>1.传统方法  传统的口令猜测或口令破解法，开发一个庞大的口令字典并使用其中的每个口令对口令文件进行尝试。这种方法通过对口令文件中每个口令使用“盐值”来进行散列运算，并和口令文件中存储的散列值进行比较。如果没有发现相匹配的口令，那么<strong>口令程序尝试改变口令字典中相似的口令</strong>，如倒置拼写，添加相似字符等。<br>2.预结算潜在的散列值  以空间代价换取时间代价。攻击者会产生一个包含所有可能的口令的较大口令字典，对于口令字典中的每一个口令，攻击者都要根据<strong>可能的“盐值”进行散列计算</strong>。</p>
 
       
     </div>
